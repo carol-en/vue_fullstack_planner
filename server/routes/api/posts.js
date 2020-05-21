@@ -8,15 +8,25 @@ router.get("/", async (req, res) => {
     res.send(await posts.find({}).toArray());
 });
 
-// ADD POST ROUTE
-router.post("/",async (req, res) => {
+// SHOW ROUTE 
+router.get("/:id", async (req, res) => {
     const posts = await loadPostsCollection();
-    await posts.insertOne({
-        text: req.body.text,
-        createdAt: new Date()
-    });
-    res.status(201).send();
+    const postId = new mongodb.ObjectID(req.params.id);
+    res.send(await posts.find({_id: postId}).toArray());
 });
+
+//UPDATE ROUTE
+// router.put("/:id", async (req, res) => {
+//     const postId = new mongodb.ObjectID(req.params.id);
+//     const posts = await loadPostsCollection();
+//     res.send("Post updated!", req.params.body);
+// });
+
+// POST ROUTE
+// router.post("/",async (req, res) => {
+//     const posts = await loadPostsCollection();
+//     req.send(req.body);
+// });
 
 // UPDATE POST ROUTE
 
